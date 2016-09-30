@@ -73,13 +73,13 @@ class GetServer(Resource):
 			data = cursor.fetchall()
 			ret = []
 			if len(data) > 0:
-				for r in results:
+				for r in data:
 					tmp = {} 
 					tmp['id'] = r[0]
 					tmp['ip'] = r[1]
 					tmp['name'] = r[2]
 					tmp['source'] = r[3]
-					ret.append(user)
+					ret.append(tmp)
 			return {'statusCode':200, 'data':ret}
 		except Exception as e:
 			return {'error': str(e)}
