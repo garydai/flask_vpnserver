@@ -58,14 +58,36 @@ class GetUser(Resource):
 			cursor.execute(sql)
 			data = cursor.fetchall()
 
-			if(len(data)>0):
+			if len(data)>0 :
 				return {'statusCode':200,'UserId':str(data[0][0])}
 		except Exception as e:
 			return {'error': str(e)}
 
+class GetServer(Resource):
+	def get(self):
+		try:
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			sql = "select * from server"
+			cursor.execute(sql)
+			data = cursor.fetchall()
+			ret = []
+			if len(data) > 0:
+				for r in results:
+					tmp = {} 
+					tmp['id'] = r[0]
+					tmp['ip'] = r[1]
+					tmp['name'] = r[2]
+					tmp['source'] = r[3]
+					ret.append(user)
+			return {'statusCode':200, 'data':ret}
+		except Exception as e:
+			return {'error': str(e)}
+
+		
 api.add_resource(CreateUser, '/adduser')
 api.add_resource(GetUser, '/getuser')
-
+api.add_resource(GetServer, '/getserver')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
 
