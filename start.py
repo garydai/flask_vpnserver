@@ -39,7 +39,6 @@ class CreateUser(Resource):
 			if len(data) == 0:
 
 				sql = "insert into radcheck (username, attribute, op, value, dsttime) VALUES ('%s', 'Cleartext-Password', ':=', 'gagatechang', '%s') " % (userId, (datetime.datetime.now() + datetime.timedelta(days=31)).strftime("%Y-%m-%d %H:%M")) 
-				print sql
 				cursor.execute(sql)
 				conn.commit()
 			return {'statusCode':200}
@@ -80,7 +79,6 @@ class GetServer(Resource):
 			cursor.execute(sql)
 			data = cursor.fetchall()
 			ret = []
-			print 11111111
 			if len(data) > 0:
 				for r in data:
 					tmp = {} 
@@ -93,7 +91,6 @@ class GetServer(Resource):
 			parser.add_argument('userid', type=str)
 			args = parser.parse_args()
 			userId = args['userid']
-			print userId
 			if userId is None:
 				return {'error': 'no userid'}
 			sql = "select * from radcheck where username = '%s'" % str(userId)
@@ -118,6 +115,6 @@ api.add_resource(CreateUser, '/adduser')
 api.add_resource(GetUser, '/getuser')
 api.add_resource(GetServer, '/getserver')
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
 
 
